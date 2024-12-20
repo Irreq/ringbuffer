@@ -57,6 +57,30 @@ void roll_ring_buffer(ring_buffer *rb, const size_t num_bytes);
 void *get_ring_buffer(ring_buffer *rb, const size_t num_bytes_offset);
 
 /**
+ * @brief Read data from the ringbuffer
+ *
+ * NOTICE: This method wraps memcpy
+ *
+ * @param rb ringbuffer object
+ * @param out read data
+ * @param num_bytes amount to read
+ * @param num_bytes_offset offset from current position
+ */
+void read_ring_buffer(ring_buffer *rb, void *out, const size_t num_bytes,
+                      const size_t num_bytes_offset);
+
+/**
+ * @brief Write data to the ringbuffer
+ *
+ * NOTICE: This method wraps memcpy + roll
+ *
+ * @param rb ringbfuffer oject
+ * @param in data to write
+ * @param num_bytes amount to write
+ */
+void write_ring_buffer(ring_buffer *rb, void *in, const size_t num_bytes);
+
+/**
  * @brief Compute the number of possible items (length) of the array
  *
  * @param rb ringbuffer object

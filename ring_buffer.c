@@ -1,4 +1,5 @@
 #include "ring_buffer.h"
+#include <string.h>
 
 ring_buffer *init_ring_buffer(int use_hugepages) {
   ring_buffer *rb = (ring_buffer *)malloc(sizeof(ring_buffer));
@@ -77,6 +78,16 @@ void roll_ring_buffer(ring_buffer *rb, const size_t num_bytes) {
 
 void *get_ring_buffer(ring_buffer *rb, const size_t num_bytes_offset) {
   return (char *)(rb->array) + rb->index + num_bytes_offset;
+}
+
+void read_ring_buffer(ring_buffer *rb, void *out, const size_t num_bytes,
+                      const size_t num_bytes_offset) {
+  memcpy(out, get_ring_buffer(rb, num_bytes_offset), num_bytes);
+}
+
+void write_ring_buffer(ring_buffer *rb, void *in, const size_t num_bytes) {
+  memcpy(get_ring_buffer(rb, 0), in, num_bytes);
+  roll_ring_buffer(rb, num_bytes);
 }
 
 size_t length_ring_buffer(ring_buffer *rb, const size_t bytes) {
